@@ -1,0 +1,15 @@
+node_modules
+# .aix holds build output, except the project description files below.
+.aix/*
+!.aix/design.json
+!.aix/state.json
+!.aix/project.json
+!.aix/languages.json
+.env
+.env.*
+!.env.example
+# Python
+__pycache__/
+*.pyc
+.venv/
+

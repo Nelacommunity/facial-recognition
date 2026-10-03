@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "python": {
+    "version": ">=3.11",
+    "venv": true,
+    "pools": {
+      "default": {
+        "workers": 1,
+        "maxConcurrency": 16,
+        "timeoutMs": 60000
+      },
+      "faceid": {
+        "workers": 1,
+        "maxConcurrency": 8,
+        "timeoutMs": 30000,
+        "dirs": [
+          "tools/faces.py"
+        ],
+        "network": "none",
+        "filesystem": []
+      }
+    }
+  },
+  "declarations": [
+    {
+      "kind": "tool",
+      "name": "summarize_numbers",
+      "source": "agents/insights.py:9",
+      "description": "Count, mean, min and max of a list of numbers.",
+      "pool": "default",
+      "language": "python"
+    },
+    {
+      "kind": "agent",
+      "name": "insights",
+      "source": "agents/insights.py:17",
+      "description": "Answers questions about numbers using Python tools.",
+      "agent": {
+        "custom": false,
+        "tools": [
+          "summarize_numbers"
+        ],
+        "memory": false,
+        "instructions": "Use summarize_numbers for statistics. Answer briefly."
+      },
+      "pool": "default",
+      "language": "python"
+    },
+    {
+      "kind": "tool",
+      "name": "face_model",
+      "source": "tools/faces.py:67",
+      "description": "The embedding model id; stored embeddings from other models need re-enrollment.",
+      "pool": "faceid",
+      "language": "python"
+    },
+    {
+      "kind": "tool",
+      "name": "face_load_gallery",
+      "source": "tools/faces.py:74",
+      "description": "Decrypt and cache the signed-in user's gallery: people = [{id, name, ciphertexts}].",
+      "secrets": [
+        "FACEID_ENCRYPTION_KEY"
+      ],
+      "pool": "faceid",
+      "language": "python"
+    },
+    {
+      "kind": "tool",
+      "name": "face_recognize",
+      "source": "tools/faces.py:81",
+      "description": "Detect every face in a base64 JPEG/PNG and match each against the cached gallery.",
+      "pool": "faceid",
+      "language": "python"
+    },
+    {
+      "kind": "tool",
+      "name": "face_enroll_start",
+      "source": "tools/faces.py:88",
+      "description": "Start a guided enrollment session (pass person_id to re-enroll an existing person).",
+      "pool": "faceid",
+      "language": "python"
+    },
+    {
+      "kind": "tool",
+      "name": "face_enroll_sample",
+      "source": "tools/faces.py:95",
+      "description": "Check one camera frame and, if it is usable, add its face to the enrollment session.",
+      "pool": "faceid",
+      "language": "python"
+    },
+    {
+      "kind": "tool",
+      "name": "face_enroll_finish",
+      "source": "tools/faces.py:102",
+      "description": "Validate an enrollment session and return its encrypted embeddings for storage.",
+      "secrets": [
+        "FACEID_ENCRYPTION_KEY"
+      ],
+      "pool": "faceid",
+      "language": "python"
+    },
+    {
+      "kind": "tool",
+      "name": "face_enroll_cancel",
+      "source": "tools/faces.py:109",
+      "description": "Discard an enrollment session and its in-memory samples.",
+      "pool": "faceid",
+      "language": "python"
+    },
+    {
+      "kind": "tool",
+      "name": "face_forget",
+      "source": "tools/faces.py:117",
+      "description": "Drop in-memory state for the signed-in user (or only one person's debouncing state).",
+      "pool": "faceid",
+      "language": "python"
+    }
+  ]
+}

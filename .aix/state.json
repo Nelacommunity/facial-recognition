@@ -1,0 +1,21 @@
+{
+  "system": "aix",
+  "description": "Client state uses AIX State (import from \"@aixjs/aix/state\" or \"@aixjs/aix/react\").",
+  "stores": [
+    {
+      "file": "state/app.ts"
+    }
+  ],
+  "builtIn": [
+    "ui (theme, sidebar, modals, notifications)",
+    "agentState(name)",
+    "workflowState(name)",
+    "taskState(name)",
+    "createResource(key, fetcher)"
+  ],
+  "persistence": {
+    "client": "localStorage for ui.theme/ui.sidebar; opt-in per store",
+    "server": "memory/file by default; sqlite/postgres/redis adapters in aix/state/server"
+  },
+  "inspector": "/__aix/state (dev)"
+}

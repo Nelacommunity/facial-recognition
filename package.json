@@ -1,0 +1,29 @@
+{
+  "name": "facial",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "aix dev",
+    "build": "aix build",
+    "start": "aix start",
+    "doctor": "aix doctor"
+  },
+  "dependencies": {
+    "@aixjs/aix": "^0.1.2",
+    "@supabase/supabase-js": "^2.117.2",
+    "jose": "^6.2.12",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.2.0",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
+  }
+}

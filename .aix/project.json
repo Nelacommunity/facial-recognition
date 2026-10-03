@@ -1,0 +1,46 @@
+{
+  "name": "facial",
+  "framework": "aix",
+  "frameworkVersion": "0.1.2",
+  "styling": "both",
+  "template": "default",
+  "languages": [
+    "typescript",
+    "javascript",
+    "python"
+  ],
+  "createdAt": "2026-10-03T07:57:23.992Z",
+  "structure": {
+    "app/": "pages (page.tsx), layouts, loading/error/not-found, API routes (app/api) — universal code",
+    "agents/": "agent() definitions — server-only",
+    "tools/": "tool() definitions — server-only",
+    "workflows/": "workflow() definitions — server-only",
+    "tasks/": "task() definitions — server-only",
+    "state/": "client stores (createStore/createAtom/createResource) — browser-safe",
+    "components/": "React components — browser-safe; style them with design tokens (var(--aix-*))",
+    "public/": "static files",
+    ".aix/design.json": "visual identity (style, mood, theme, density, motion)",
+    ".aix/state.json": "state architecture",
+    ".aix/security.json": "security profile (application type, level, requirements) — read before changing code",
+    ".aix/languages.json": "Python pools and every Python declaration (written by aix dev/build)",
+    "pyproject.toml": "Python dependencies (lock with `uv lock`)"
+  },
+  "conventions": [
+    "Read .aix/security.json first: it defines the security level and requirements every change must respect.",
+    "Never import server-only code (agents, tools, workflows, tasks, \"aix\") from pages or components; use aix/react hooks instead.",
+    "Use design tokens (CSS variables --aix-*) instead of hard-coded colors, fonts, radii and spacing.",
+    "Agents are private by default; set access: \"public\" to call them from the browser.",
+    "Destructive tools declare capabilities and require approval.",
+    "Supported languages: TypeScript, JavaScript and Python (.ts, .js, .py) — nothing else.",
+    "TypeScript/JavaScript own the app: pages, layouts, components, API routes, routes.ts, data models (models/), config, security. route() and ui() do not exist in Python.",
+    "Python is for AI and data work: tools, agents, workflow steps and background tasks (from aix import tool, agent, workflow, step, task).",
+    "Python code never gets database credentials or raw secrets: it calls ctx.db.query/get/count/create/update/delete, ctx.secrets.get (names listed in secrets=[...]), ctx.state, ctx.events.emit and ctx.ai.generate — each needs the matching permissions=[...] (database.read, database.write, state, events, ai).",
+    "Data access from Python runs as the user who triggered the call, through the same access rules as TypeScript. Data model types for Python are generated in .aix/schemas/python/aix_models.py (import aix_models).",
+    "Call Python from TypeScript by importing the file: import { analyst } from \"./agents/analyst.py\" (server code only; types come from .aix/schemas). A TS agent can list a Python tool in tools: [...]; a Python agent can list TS tools by name.",
+    "Type hints (or Pydantic models) on Python tools are the input/output schema; the host validates both ways. Docstrings are the descriptions models see.",
+    "Pools, worker counts, timeouts, limits and Python dependencies: .aix/languages.json and pyproject.toml (+ uv.lock). Declarations are recorded in .aix/languages.json by `aix dev`/`aix build`.",
+    "Names are global across languages: a TS and a Python declaration with the same kind and name is an error (the TS one wins).",
+    "Styling: Tailwind CSS utilities mapped to the design tokens (bg-surface, text-fg, text-accent …) and plain CSS with var(--aix-*) in app/globals.css; prefer utilities for new code."
+  ],
+  "pwa": true
+}

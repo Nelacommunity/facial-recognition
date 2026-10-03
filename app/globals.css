@@ -1,0 +1,15 @@
+@import "tailwindcss";
+/* AIX design tokens as Tailwind theme values: bg-surface, text-fg, text-accent, rounded-md, shadow-card … */
+@import "@aixjs/aix/tailwind.css";
+/* Don't scan build output for class names. */
+@source not "../.aix";
+
+/* Colors, fonts, radii and spacing come from your design (.aix/design.json) as CSS variables. */
+main { max-width: var(--aix-max-width); margin: 0 auto; padding: var(--aix-space-6) var(--aix-space-5); display: flex; flex-direction: column; gap: var(--aix-gap); min-height: 100vh; box-sizing: border-box; }
+main > p { margin: 0; color: var(--aix-text-2); }
+h1 { margin: 0; }
+
+.app-nav { max-width: var(--aix-max-width); margin: 0 auto; padding: var(--aix-space-4) var(--aix-space-5) 0; display: flex; gap: var(--aix-space-5); align-items: center; flex-wrap: wrap; box-sizing: border-box; }
+.app-nav a { color: var(--aix-text-2); text-decoration: none; }
+.app-nav a:hover { color: var(--aix-text); }
+main { min-height: auto; }
