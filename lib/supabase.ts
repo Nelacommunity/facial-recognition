@@ -88,9 +88,10 @@ export async function verifyAccessToken(token: string): Promise<VerifiedUser | u
   try {
     const { alg } = decodeProtectedHeader(token);
     if (alg === "HS256") {
-      const jwtSecret = secret("SUPABASE_JWT_SECRET", { optional: true });
+      // An empty value (e.g. a blank variable on the hosting platform) counts as not set.
+      const jwtSecret = secret("SUPABASE_JWT_SECRET", { optional: true })?.reveal();
       if (!jwtSecret) return verifyWithAuthServer(token);
-      ({ payload } = await jwtVerify(token, new TextEncoder().encode(jwtSecret.reveal()), { ...options, algorithms: ["HS256"] }));
+      ({ payload } = await jwtVerify(token, new TextEncoder().encode(jwtSecret), { ...options, algorithms: ["HS256"] }));
     } else {
       jwks ??= createRemoteJWKSet(new URL(`${url}/auth/v1/.well-known/jwks.json`));
       ({ payload } = await jwtVerify(token, jwks, { ...options, algorithms: ["ES256", "RS256"] }));

@@ -1,0 +1,23 @@
+node_modules
+.aix/*
+!.aix/design.json
+!.aix/state.json
+!.aix/project.json
+!.aix/security.json
+!.aix/languages.json
+!.aix/data-model.json
+!.aix/migrations
+.git
+.env
+.env.*
+!.env.example
+*.log
+__pycache__
+*.pyc
+.venv
+certs
+# Not needed in the image
+tests
+supabase
+Dockerfile
+render.yaml
